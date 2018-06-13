@@ -46,9 +46,6 @@ const controller = {
     },
     clickedNumber(event) {
         if (String(model.currentInput).length < 15) {
-            if (model.operator) {
-                model.currentInput = '';
-            }
             model.currentInput += event.target.value;
             view.updateDisplay();
         }
@@ -56,6 +53,7 @@ const controller = {
     clickedOperator(event) {
         model.operator = event.target.value;
         model.firstOperand = model.currentInput;
+        model.currentInput = '';
     },
     clickedEquals() {
         switch (model.operator) {
