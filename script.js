@@ -1,8 +1,9 @@
-let controls = document.querySelector('.controls');
-let output = document.querySelector('.output-text');
+const controls = document.querySelector('.controls');
+const output = document.querySelector('.output-text');
 const numbers = document.querySelectorAll('.number');
 const operators = document.querySelectorAll('.operator');
 const equals = document.querySelector('.equals');
+const decimal = document.querySelector('.decimal');
 const options = document.querySelectorAll('.option');
 
 //Model
@@ -20,6 +21,9 @@ const model = {
     },
     multiply() {
         model.tempResult = Number(model.firstOperand) * Number(model.secondOperand);
+    },
+    divide() {
+        model.tempResult = Number(model.firstOperand) / Number(model.secondOperand);
     }
 }
 
@@ -29,8 +33,19 @@ const view = {
         output.innerHTML = model.currentInput;
     },
     showResult() {
-        output.innerHTML = model.tempResult;
+        if (String(model.tempResult).length > 15 && model.tempResult < 1) {
+            output.innerHTML = Number(model.tempResult).toFixed(8);
+        }
+        else {
+            output.innerHTML = model.tempResult;
+        }
     },
+    enableDecimal(event) {
+        decimal.disabled = false;
+    },
+    disableDecimal(event) {
+        decimal.disabled = true;
+    }
 }
 
 //Controller
@@ -54,12 +69,14 @@ const controller = {
         }
     },
     clickedOperator(event) {
+        view.enableDecimal(event);
         model.operator = event.target.value;
         model.currentInput = output.innerHTML;
         model.firstOperand = model.currentInput;
         model.currentInput = '';
     },
     clickedEquals() {
+        view.enableDecimal();
         switch (model.operator) {
             case '+':
                 model.secondOperand = model.currentInput;
@@ -79,6 +96,12 @@ const controller = {
                 view.showResult();
                 model.firstOperand = model.tempResult;
                 break;
+            case '/':
+                model.secondOperand = model.currentInput;
+                model.divide();
+                view.showResult();
+                model.firstOperand = model.tempResult;
+                break;
         }
     },
     clickedOption(event) {
@@ -86,6 +109,11 @@ const controller = {
         switch (optionClicked) {
             case 'AC':
                 controller.allClear();
+                break;
+            case '.':
+                view.disableDecimal(event);
+                model.currentInput += '.';
+                view.updateDisplay();
                 break;
         }
     },
