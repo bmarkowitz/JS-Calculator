@@ -74,7 +74,7 @@ const controller = {
             }
         }
         else {
-            if(event.target.value !== '0') {
+            if (event.target.value !== '0') {
                 model.currentInput += event.target.value;
                 view.updateDisplay();
             }
