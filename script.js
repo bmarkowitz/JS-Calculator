@@ -34,7 +34,7 @@ const view = {
         output.innerHTML = model.currentInput;
     },
     showResult() {
-        if (String(model.tempResult).length > 15 && model.tempResult < 1) {
+        if (String(model.tempResult).length > 15 && String(model.tempResult).includes('.')) {
             output.innerHTML = Number(model.tempResult).toFixed(8);
         }
         else {

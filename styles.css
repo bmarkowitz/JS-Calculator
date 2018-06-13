@@ -53,7 +53,7 @@ body {
     border: 2px solid black;
 }
 
-.number-zero{
+button[value="0"]{
     flex-grow: 2;
 }
 
