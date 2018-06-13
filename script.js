@@ -3,6 +3,7 @@ let output = document.querySelector('.output-text');
 const numbers = document.querySelectorAll('.number');
 const operators = document.querySelectorAll('.operator');
 const equals = document.querySelector('.equals');
+const options = document.querySelectorAll('.option');
 
 //Model
 const model = {
@@ -43,6 +44,9 @@ const controller = {
             element.addEventListener('click', controller.clickedOperator);
         });
         equals.addEventListener('click', this.clickedEquals);
+        options.forEach(function(element) {
+            element.addEventListener('click', controller.clickedOption);
+        });
     },
     clickedNumber(event) {
         if (String(model.currentInput).length < 15) {
@@ -77,10 +81,21 @@ const controller = {
                 break;
         }
     },
+    clickedOption(event) {
+        let optionClicked = event.target.value;
+        switch(optionClicked) {
+            case 'AC':
+                controller.allClear();
+                break;
+        }
+    },
     allClear() {
-        model.tempResult, model.firstOperand, model.secondOperand = 0;
-        model.currentInput, model.operator = '';
-        view.updateDisplay();
+        model.tempResult = 0;
+        model.firstOperand = 0;
+        model.secondOperand = 0;
+        model.currentInput = '';
+        output.innerHTML = '0';
+        model.operator = '';
     }
 }
 
