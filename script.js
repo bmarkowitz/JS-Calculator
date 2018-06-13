@@ -16,12 +16,11 @@ const model = {
         model.tempResult = Number(model.firstOperand) + Number(model.secondOperand);
     },
     subtract() {
-        model.tempResult = Number(model.firstOperand) - Number(model.secondOperand);
+        model.tempResult = Number(model.secondOperand) - Number(model.firstOperand);
     },
     multiply() {
         model.tempResult = Number(model.firstOperand) * Number(model.secondOperand);
     }
-
 }
 
 //View
@@ -56,28 +55,29 @@ const controller = {
     },
     clickedOperator(event) {
         model.operator = event.target.value;
-        model.firstOperand = model.currentInput;
+        model.currentInput = output.innerHTML;
+        model.secondOperand = model.currentInput;
         model.currentInput = '';
     },
     clickedEquals() {
         switch (model.operator) {
             case '+':
-                model.secondOperand = model.currentInput;
+                model.firstOperand = model.currentInput;
                 model.add();
                 view.showResult();
-                model.currentInput = model.tempResult;
+                model.secondOperand = model.tempResult;
                 break;
             case '-':
-                model.secondOperand = model.currentInput;
+                model.firstOperand = model.currentInput;
                 model.subtract();
                 view.showResult();
-                model.currentInput = model.tempResult;
+                model.secondOperand = model.tempResult;
                 break;
             case 'X':
-                model.secondOperand = model.currentInput;
+                model.firstOperand = model.currentInput;
                 model.multiply();
                 view.showResult();
-                model.currentInput = model.tempResult;
+                model.secondOperand = model.tempResult;
                 break;
         }
     },
