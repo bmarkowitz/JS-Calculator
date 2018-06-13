@@ -13,6 +13,7 @@ const model = {
     secondOperand: 0,
     currentInput: '',
     operator: '',
+    executed: false,
     add() {
         model.tempResult = Number(model.firstOperand) + Number(model.secondOperand);
     },
@@ -24,7 +25,7 @@ const model = {
     },
     divide() {
         model.tempResult = Number(model.firstOperand) / Number(model.secondOperand);
-    }
+    },
 }
 
 //View
@@ -45,6 +46,9 @@ const view = {
     },
     disableDecimal(event) {
         decimal.disabled = true;
+    },
+    negate() {
+        output.innerHTML = output.innerHTML * -1;
     }
 }
 
@@ -57,7 +61,7 @@ const controller = {
         operators.forEach(function (element) {
             element.addEventListener('click', controller.clickedOperator);
         });
-        equals.addEventListener('click', this.clickedEquals);
+        equals.addEventListener('click', this.execute);
         options.forEach(function (element) {
             element.addEventListener('click', controller.clickedOption);
         });
@@ -69,13 +73,17 @@ const controller = {
         }
     },
     clickedOperator(event) {
-        view.enableDecimal(event);
+        if (!model.executed) {
+            controller.execute();  
+        }
+        model.executed = false;
         model.operator = event.target.value;
         model.currentInput = output.innerHTML;
         model.firstOperand = model.currentInput;
         model.currentInput = '';
     },
-    clickedEquals() {
+    execute() {
+        model.executed = true;
         view.enableDecimal();
         switch (model.operator) {
             case '+':
@@ -115,6 +123,8 @@ const controller = {
                 model.currentInput += '.';
                 view.updateDisplay();
                 break;
+            case '+/-':
+                view.negate();
         }
     },
     allClear() {
