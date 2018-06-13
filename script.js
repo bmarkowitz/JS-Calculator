@@ -67,14 +67,22 @@ const controller = {
         });
     },
     clickedNumber(event) {
-        if (String(model.currentInput).length < 15 && model.executed == false) {
-            model.currentInput += event.target.value;
-            view.updateDisplay();
+        if (model.currentInput) {
+            if (String(model.currentInput).length < 15 && model.executed == false) {
+                model.currentInput += event.target.value;
+                view.updateDisplay();
+            }
+        }
+        else {
+            if(event.target.value !== '0') {
+                model.currentInput += event.target.value;
+                view.updateDisplay();
+            }
         }
     },
     clickedOperator(event) {
         if (!model.executed) {
-            controller.execute();  
+            controller.execute();
         }
         view.enableDecimal();
         model.executed = false;
