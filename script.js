@@ -87,25 +87,25 @@ const controller = {
         view.enableDecimal();
         switch (model.operator) {
             case '+':
-                model.secondOperand = model.currentInput;
+                model.secondOperand = output.innerHTML;
                 model.add();
                 view.showResult();
                 model.firstOperand = model.tempResult;
                 break;
             case '-':
-                model.secondOperand = model.currentInput;
+                model.secondOperand = output.innerHTML;
                 model.subtract();
                 view.showResult();
                 model.firstOperand = model.tempResult;
                 break;
             case 'X':
-                model.secondOperand = model.currentInput;
+                model.secondOperand = output.innerHTML;
                 model.multiply();
                 view.showResult();
                 model.firstOperand = model.tempResult;
                 break;
             case '/':
-                model.secondOperand = model.currentInput;
+                model.secondOperand = output.innerHTML;
                 model.divide();
                 view.showResult();
                 model.firstOperand = model.tempResult;
