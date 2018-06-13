@@ -17,6 +17,9 @@ const model = {
     subtract() {
         model.tempResult = Number(model.firstOperand) - Number(model.secondOperand);
     },
+    multiply() {
+        model.tempResult = Number(model.firstOperand) * Number(model.secondOperand);
+    }
 
 }
 
@@ -42,30 +45,45 @@ const controller = {
         equals.addEventListener('click', this.clickedEquals);
     },
     clickedNumber(event) {
-        if (model.currentInput.length < 15) {
+        if (String(model.currentInput).length < 15) {
+            if (model.operator) {
+                model.currentInput = '';
+            }
             model.currentInput += event.target.value;
             view.updateDisplay();
         }
     },
     clickedOperator(event) {
         model.operator = event.target.value;
-        model.firstOperand = model.tempResult;
-        model.currentInput = '';
+        model.firstOperand = model.currentInput;
     },
     clickedEquals() {
-        switch(model.operator) {
+        switch (model.operator) {
             case '+':
                 model.secondOperand = model.currentInput;
                 model.add();
                 view.showResult();
+                model.currentInput = model.tempResult;
                 break;
             case '-':
                 model.secondOperand = model.currentInput;
                 model.subtract();
                 view.showResult();
-                break;   
+                model.currentInput = model.tempResult;
+                break;
+            case 'X':
+                model.secondOperand = model.currentInput;
+                model.multiply();
+                view.showResult();
+                model.currentInput = model.tempResult;
+                break;
         }
     },
+    allClear() {
+        model.tempResult, model.firstOperand, model.secondOperand = 0;
+        model.currentInput, model.operator = '';
+        view.updateDisplay();
+    }
 }
 
 controller.setUpHandlers();
