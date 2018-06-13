@@ -67,7 +67,7 @@ const controller = {
         });
     },
     clickedNumber(event) {
-        if (String(model.currentInput).length < 15) {
+        if (String(model.currentInput).length < 15 && model.executed == false) {
             model.currentInput += event.target.value;
             view.updateDisplay();
         }
@@ -76,6 +76,7 @@ const controller = {
         if (!model.executed) {
             controller.execute();  
         }
+        view.enableDecimal();
         model.executed = false;
         model.operator = event.target.value;
         model.currentInput = output.innerHTML;
@@ -84,7 +85,7 @@ const controller = {
     },
     execute() {
         model.executed = true;
-        view.enableDecimal();
+        view.disableDecimal();
         switch (model.operator) {
             case '+':
                 model.secondOperand = output.innerHTML;
@@ -128,6 +129,7 @@ const controller = {
         }
     },
     allClear() {
+        model.executed = false;
         model.tempResult = 0;
         model.firstOperand = 0;
         model.secondOperand = 0;
