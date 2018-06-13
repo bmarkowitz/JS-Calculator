@@ -16,7 +16,7 @@ const model = {
         model.tempResult = Number(model.firstOperand) + Number(model.secondOperand);
     },
     subtract() {
-        model.tempResult = Number(model.secondOperand) - Number(model.firstOperand);
+        model.tempResult = Number(model.firstOperand) - Number(model.secondOperand);
     },
     multiply() {
         model.tempResult = Number(model.firstOperand) * Number(model.secondOperand);
@@ -43,7 +43,7 @@ const controller = {
             element.addEventListener('click', controller.clickedOperator);
         });
         equals.addEventListener('click', this.clickedEquals);
-        options.forEach(function(element) {
+        options.forEach(function (element) {
             element.addEventListener('click', controller.clickedOption);
         });
     },
@@ -56,34 +56,34 @@ const controller = {
     clickedOperator(event) {
         model.operator = event.target.value;
         model.currentInput = output.innerHTML;
-        model.secondOperand = model.currentInput;
+        model.firstOperand = model.currentInput;
         model.currentInput = '';
     },
     clickedEquals() {
         switch (model.operator) {
             case '+':
-                model.firstOperand = model.currentInput;
+                model.secondOperand = model.currentInput;
                 model.add();
                 view.showResult();
-                model.secondOperand = model.tempResult;
+                model.firstOperand = model.tempResult;
                 break;
             case '-':
-                model.firstOperand = model.currentInput;
+                model.secondOperand = model.currentInput;
                 model.subtract();
                 view.showResult();
-                model.secondOperand = model.tempResult;
+                model.firstOperand = model.tempResult;
                 break;
             case 'X':
-                model.firstOperand = model.currentInput;
+                model.secondOperand = model.currentInput;
                 model.multiply();
                 view.showResult();
-                model.secondOperand = model.tempResult;
+                model.firstOperand = model.tempResult;
                 break;
         }
     },
     clickedOption(event) {
         let optionClicked = event.target.value;
-        switch(optionClicked) {
+        switch (optionClicked) {
             case 'AC':
                 controller.allClear();
                 break;
