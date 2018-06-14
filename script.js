@@ -15,30 +15,30 @@ const model = {
     operator: '',
     executed: false,
     add() {
-        model.tempResult = Number(model.firstOperand) + Number(model.secondOperand);
+        model.tempResult = parseFloat(model.firstOperand) + parseFloat(model.secondOperand);
     },
     subtract() {
-        model.tempResult = Number(model.firstOperand) - Number(model.secondOperand);
+        model.tempResult = parseFloat(model.firstOperand) - parseFloat(model.secondOperand);
     },
     multiply() {
-        model.tempResult = Number(model.firstOperand) * Number(model.secondOperand);
+        model.tempResult = parseFloat(model.firstOperand) * parseFloat(model.secondOperand);
     },
     divide() {
-        model.tempResult = Number(model.firstOperand) / Number(model.secondOperand);
+        model.tempResult = parseFloat(model.firstOperand) / parseFloat(model.secondOperand);
     },
 }
 
 //View
 const view = {
     updateDisplay() {
-        output.innerHTML = model.currentInput;
+        output.textContent = model.currentInput;
     },
     showResult() {
         if (String(model.tempResult).length > 15 && String(model.tempResult).includes('.')) {
-            output.innerHTML = Number(model.tempResult).toFixed(8);
+            output.textContent = parseFloat(model.tempResult.toFixed(8));
         }
         else {
-            output.innerHTML = model.tempResult;
+            output.textContent = model.tempResult;
         }
     },
     enableDecimal(event) {
@@ -48,7 +48,7 @@ const view = {
         decimal.disabled = true;
     },
     negate() {
-        output.innerHTML = output.innerHTML * -1;
+        output.textContent = output.textContent * -1;
     }
 }
 
@@ -87,7 +87,7 @@ const controller = {
         view.enableDecimal();
         model.executed = false;
         model.operator = event.target.value;
-        model.currentInput = output.innerHTML;
+        model.currentInput = output.textContent;
         model.firstOperand = model.currentInput;
         model.currentInput = '';
     },
@@ -96,25 +96,25 @@ const controller = {
         view.disableDecimal();
         switch (model.operator) {
             case '+':
-                model.secondOperand = output.innerHTML;
+                model.secondOperand = model.currentInput;
                 model.add();
                 view.showResult();
                 model.firstOperand = model.tempResult;
                 break;
             case '-':
-                model.secondOperand = output.innerHTML;
+                model.secondOperand = model.currentInput;
                 model.subtract();
                 view.showResult();
                 model.firstOperand = model.tempResult;
                 break;
             case 'X':
-                model.secondOperand = output.innerHTML;
+                model.secondOperand = model.currentInput;
                 model.multiply();
                 view.showResult();
                 model.firstOperand = model.tempResult;
                 break;
             case '/':
-                model.secondOperand = output.innerHTML;
+                model.secondOperand = model.currentInput;
                 model.divide();
                 view.showResult();
                 model.firstOperand = model.tempResult;
@@ -142,8 +142,9 @@ const controller = {
         model.firstOperand = 0;
         model.secondOperand = 0;
         model.currentInput = '';
-        output.innerHTML = '0';
+        output.textContent = '0';
         model.operator = '';
+        view.enableDecimal();
     }
 }
 
